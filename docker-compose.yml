@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: siloam_vendor_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: siloam
+      POSTGRES_PASSWORD: siloam
+      POSTGRES_DB: siloam_vendor
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./.pgdata:/var/lib/postgresql/data
+      # Auto-run raw SQL on first boot (schema + seed) so the DB folder runs standalone.
+      - ./database/sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U siloam -d siloam_vendor"]
+      interval: 5s
+      timeout: 5s
+      retries: 10

@@ -1,0 +1,38 @@
+.dt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.dt-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dt-btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.dt-btn-primary:not(:disabled):hover {
+  background: var(--primary-hover);
+}
+
+.dt-btn-light {
+  background: var(--muted);
+  color: var(--fg-secondary);
+  border-color: var(--border);
+}
+
+.dt-btn-light:hover {
+  background: #ececef;
+}

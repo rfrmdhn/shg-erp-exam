@@ -1,0 +1,31 @@
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon--primary {
+  background: rgba(22, 163, 74, 0.1);
+  color: #16a34a;
+}
+
+.stat-icon--info {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+}
+
+.stat-value {
+  line-height: 1;
+}
+
+.stat-value-sm {
+  line-height: 1.1;
+}
+
+.card-clickable {
+  cursor: pointer;
+}

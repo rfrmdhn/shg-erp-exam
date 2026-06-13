@@ -1,0 +1,30 @@
+.login-bg {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(22, 163, 74, 0.12), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(15, 118, 110, 0.1), transparent 40%),
+    #f3f4f6;
+}
+
+.logo-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
+}
+
+.sign-in-title {
+  color: #111827;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+}

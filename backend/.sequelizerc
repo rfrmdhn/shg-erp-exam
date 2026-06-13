@@ -1,0 +1,9 @@
+const path = require('path');
+
+// Migrations and seeders live in the shared `database/` deliverable folder,
+// but the sequelize-cli runs from `backend/` where it is installed.
+module.exports = {
+  config: path.resolve('..', 'database', 'config', 'config.js'),
+  'migrations-path': path.resolve('..', 'database', 'migrations'),
+  'seeders-path': path.resolve('..', 'database', 'seeders'),
+};

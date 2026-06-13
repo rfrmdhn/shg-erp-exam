@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-ui: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Design tokens — one border color for every line in the UI (card, divider, row, input, footer). */
+  --primary: #16a34a;
+  --primary-hover: #15803d;
+
+  --border: #e4e4e7; /* zinc-200 — the single line color */
+  --card: #ffffff;
+  --muted: #f4f4f5; /* zinc-100 — subtle fills, table header */
+  --muted-hover: #f4f4f5;
+
+  --fg: #18181b; /* zinc-900 — primary text */
+  --fg-secondary: #52525b; /* zinc-600 — body/cell text */
+  --fg-muted: #71717a; /* zinc-500 — captions, sub-labels */
+
+  --radius: 8px; /* buttons, inputs, pills */
+  --radius-card: 12px; /* cards */
+  --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+  /* legacy aliases kept so older references keep resolving */
+  --color-text-secondary: var(--fg-secondary);
+  --color-text-muted: var(--fg-muted);
+  --color-border: var(--border);
+}
+
+html,
+body {
+  font-family: var(--font-ui);
+}
+
+.v-application {
+  font-family: var(--font-ui) !important;
+}
+
+/* Card uses shared tokens so every card/menu/panel stays consistent. */
+.app-card {
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-card) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+/* Sidebar nav: active item = solid green, white text/icon, rounded;
+   hover (inactive) = primary/10 tint. */
+.sb-item {
+  border-radius: 8px !important;
+  margin: 2px 8px;
+  min-height: 42px !important;
+}
+.sb-item .v-list-item-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.sb-item:hover:not(.v-list-item--active) {
+  background: rgba(22, 163, 74, 0.1);
+}
+.sb-item:hover:not(.v-list-item--active) .v-list-item__prepend .v-icon,
+.sb-item:hover:not(.v-list-item--active) .v-list-item-title {
+  color: var(--primary);
+}
+.sb-item.v-list-item--active {
+  background: var(--primary) !important;
+  color: #fff !important;
+}
+.sb-item.v-list-item--active .v-icon,
+.sb-item.v-list-item--active .v-list-item-title {
+  color: #fff !important;
+}
+.sb-item.v-list-item--active .v-list-item__overlay {
+  opacity: 0;
+}
+
+/* Input focus ring. */
+.v-text-field .v-field.v-field--focused,
+.v-select .v-field.v-field--focused {
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+/* Dialog cards match the table cards: 12px radius + the shared border. */
+.v-overlay__content > .v-card {
+  border-radius: var(--radius-card) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Vuetify dividers use the one border color (kills the slightly-off grey). */
+.v-divider {
+  border-color: var(--border) !important;
+  opacity: 1 !important;
+}
+
+/* Subtle table header */
+.v-data-table-server thead th {
+  background: #f9fafb !important;
+  color: var(--color-text-secondary) !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+/* Section heading (uppercase muted) */
+.sb-heading {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  padding: 16px 16px 4px;
+}

@@ -1,0 +1,117 @@
+.dt-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.dt-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.dt-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dt-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.2;
+}
+
+.dt-subcount {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--fg-muted);
+}
+
+.dt-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.dt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.dt-table thead th {
+  background: var(--muted);
+  color: var(--fg-muted);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  text-align: left;
+  height: 44px;
+  padding: 0 16px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.dt-table tbody td {
+  height: 56px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-secondary);
+  vertical-align: middle;
+}
+
+.dt-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dt-row {
+  transition: background-color 0.12s;
+}
+
+.dt-row:hover {
+  background: rgba(22, 163, 74, 0.035);
+}
+
+.dt-cell-text {
+  color: var(--fg-secondary);
+}
+
+.dt-table thead th:first-child,
+.dt-table tbody td:first-child {
+  padding-inline-start: 24px;
+}
+
+.dt-table thead th:last-child,
+.dt-table tbody td:last-child {
+  padding-inline-end: 24px;
+}
+
+.dt-actions-col {
+  width: 110px;
+}
+
+.dt-text-right {
+  text-align: right;
+}
+
+.dt-member-name {
+  font-weight: 700;
+  color: var(--fg);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.dt-member-name:hover {
+  color: var(--primary);
+}
+
+.dt-member-sub {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
