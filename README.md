@@ -38,23 +38,52 @@ unit (`vendor_id` is unique within a unit, but may repeat across units).
 
 ## Quick start
 
-Run these commands from the **repo root**:
+> Run every command from the **repo root** unless told otherwise.
+> You need **three terminals** — one per service.
+
+### Step 1 — Start PostgreSQL
 
 ```bash
-# 1. Start PostgreSQL
-#    First boot: auto-runs database/sql/01-schema.sql then 02-seed.sql
 docker compose up -d
+```
 
-# 2. Backend  (new terminal)
+Wait until the database is healthy (takes ~10–15 seconds on first boot while it loads the
+schema and seed SQL):
+
+```bash
+docker compose ps
+# STATUS column should show "healthy" for the postgres service before you continue
+```
+
+You can also tail the logs to watch progress:
+
+```bash
+docker compose logs -f postgres
+# Press Ctrl-C when you see "database system is ready to accept connections"
+```
+
+### Step 2 — Start the backend (new terminal)
+
+```bash
 cd backend
 cp .env.example .env       # defaults already match docker-compose — no edits needed
 npm install
-npm run dev                # API ready at http://localhost:3000
+npm run dev
+```
 
-# 3. Frontend  (another terminal)
+Verify it's up:
+
+```bash
+curl http://localhost:3000/api/v1/health
+# Expected: {"status":"ok"}
+```
+
+### Step 3 — Start the frontend (another terminal)
+
+```bash
 cd frontend
 npm install
-npm run dev                # App ready at http://localhost:5173
+npm run dev
 ```
 
 Open **http://localhost:5173** and log in:
@@ -158,21 +187,32 @@ Base: `/api/v1`. All vendor/unit endpoints require `Authorization: Bearer <token
 
 ## Troubleshooting
 
-**Cannot connect to database**
-The Docker Postgres is exposed on host port **5433**, not 5432. Confirm `DB_PORT=5433`
-in `backend/.env` (the `.env.example` already has this value).
+**Backend crashes immediately with "ECONNREFUSED" or "connection refused"**
+Postgres wasn't ready yet when the backend started. Run `docker compose ps` and wait
+until the `STATUS` column shows `healthy`, then restart the backend with `npm run dev`.
 
-**`docker compose up -d` says port already in use**
-Another Postgres instance is running on 5433. Either stop it or change the host port
-in `docker-compose.yml` and `backend/.env`.
+**Cannot connect to database (wrong port)**
+The Docker Postgres is exposed on host port **5433**, not the default 5432. Confirm
+`DB_PORT=5433` in `backend/.env` (the `.env.example` already has this value).
+
+**`docker compose up -d` says port 5433 is already in use**
+Another process is using port 5433. Either stop it, or change the host port in
+`docker-compose.yml` and `backend/.env` to a free port (e.g. `5434:5432` / `DB_PORT=5434`).
 
 **Schema/seed not loaded after `docker compose up -d`**
 The init SQL only runs on the **first boot** (when `.pgdata/` is empty). To force a
-re-run: `docker compose down && rm -rf .pgdata && docker compose up -d`.
+full re-provision: `docker compose down && rm -rf .pgdata && docker compose up -d`.
 
-**Frontend shows "Failed to load vendors"**
-Make sure the backend is running (`npm run dev` in `backend/`) before opening the
-frontend.
+**`curl http://localhost:3000/api/v1/health` returns nothing**
+The backend is not running. Open a terminal in `backend/` and run `npm run dev`.
 
-**Tests fail with `Cannot find module ...`**
-Run `npm install` inside the relevant folder (`backend/` or `frontend/`).
+**Frontend shows "Failed to load vendors" or login fails**
+The backend must be running before you open the frontend. Check Step 2 above.
+
+**`npm install` errors / `Cannot find module`**
+You're likely running `npm install` from the repo root instead of inside `backend/` or
+`frontend/`. Each folder has its own `package.json` — run `npm install` inside it.
+
+**Tests fail with database errors**
+Backend and frontend tests use in-memory databases — no live Postgres needed. If tests
+fail, it is not a database issue. Run `npm install` in the failing folder and try again.

@@ -20,8 +20,17 @@ npm install
 npm run dev               # http://localhost:3000
 ```
 
+> **Wait for Postgres to be healthy first** — run `docker compose ps` from the repo root
+> and confirm the `STATUS` column shows `healthy` before starting the backend.
 > The Docker Compose PostgreSQL auto-loads the schema + seed on first boot, so no
 > manual migration step is needed. If you prefer Sequelize CLI: `npm run db:setup`.
+
+Verify the API is running:
+
+```bash
+curl http://localhost:3000/api/v1/health
+# Expected: {"status":"ok"}
+```
 
 ## Scripts
 
