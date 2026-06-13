@@ -5,6 +5,7 @@ export const vendorQuerySchema = z.object({
 });
 
 export const vendorCreateSchema = z.object({
+  vendorId: z.string().min(1, 'vendorId is required'),
   name: z.string().min(1, 'name is required'),
   address: z.string().min(1, 'address is required'),
   unitId: z.number().int().positive('unitId must be a positive integer'),

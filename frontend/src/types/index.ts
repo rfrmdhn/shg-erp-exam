@@ -26,6 +26,7 @@ export interface VendorListResponse {
 }
 
 export interface NewVendorPayload {
+  vendorId?: string;
   name: string;
   address: string;
   unitId: number;

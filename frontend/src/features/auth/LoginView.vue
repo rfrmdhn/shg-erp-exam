@@ -55,9 +55,9 @@
         </v-btn>
       </v-form>
 
-      <p class="text-center text-caption text-muted mt-5 mb-0">
+      <!-- <p class="text-center text-caption text-muted mt-5 mb-0">
         Demo: admin / admin123
-      </p>
+      </p> -->
     </v-card>
   </div>
 </template>

@@ -51,7 +51,8 @@ describe('VendorView', () => {
     await wrapper.find('[data-test="new-vendor-btn"]').trigger('click');
     await wrapper.vm.$nextTick();
 
-    // dialog content teleports to body
+    // dialog content teleports to body — all three required fields must be present
+    expect(document.body.querySelector('[data-test="field-vendor-id"]')).toBeTruthy();
     expect(document.body.querySelector('[data-test="field-name"]')).toBeTruthy();
   });
 

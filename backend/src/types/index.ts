@@ -33,6 +33,7 @@ export interface LoginResult {
 }
 
 export interface CreateVendorData {
+  vendorId: string;
   name: string;
   address: string;
   unitId: number;

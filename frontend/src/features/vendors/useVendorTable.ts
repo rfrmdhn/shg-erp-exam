@@ -39,7 +39,7 @@ export function useVendorTable() {
   const formRef = ref<VuetifyForm | null>(null);
   const editingId = ref<number | null>(null);
   const editingVendorId = ref('');
-  const form = reactive({ name: '', address: '' });
+  const form = reactive({ vendorId: '', name: '', address: '' });
 
   const deleteDialog = ref(false);
   const deleting = ref(false);
@@ -72,6 +72,7 @@ export function useVendorTable() {
   function openDialog() {
     editingId.value = null;
     editingVendorId.value = '';
+    form.vendorId = '';
     form.name = '';
     form.address = '';
     error.value = '';
@@ -81,6 +82,7 @@ export function useVendorTable() {
   function openEdit(item: Vendor) {
     editingId.value = item.id;
     editingVendorId.value = item.vendorId;
+    form.vendorId = item.vendorId;
     form.name = item.name;
     form.address = item.address;
     error.value = '';
@@ -95,6 +97,7 @@ export function useVendorTable() {
     error.value = '';
     try {
       const payload = {
+        vendorId: editingId.value ? undefined : form.vendorId,
         name: form.name,
         address: form.address,
         unitId: unitStore.selectedUnitId,
