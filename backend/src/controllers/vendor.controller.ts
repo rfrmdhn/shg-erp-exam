@@ -17,10 +17,10 @@ export async function listVendors(req: AuthRequest, res: Response, next: NextFun
 }
 
 export async function createVendor(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
-  const { name, address, unitId } = req.body as VendorCreateBody;
+  const { vendorId, name, address, unitId } = req.body as VendorCreateBody;
 
   try {
-    const vendor = await vendorService.createVendor({ name, address, unitId });
+    const vendor = await vendorService.createVendor({ vendorId, name, address, unitId });
     res.status(201).json(vendor);
   } catch (err) {
     next(err);

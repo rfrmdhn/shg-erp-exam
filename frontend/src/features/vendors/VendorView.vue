@@ -82,7 +82,14 @@
       <p class="text-caption text-muted mb-3">
         Branch: <strong>{{ selectedBranchName }}</strong>
       </p>
-      <p v-if="editingId" class="text-caption mb-3">
+      <v-text-field
+        v-if="!editingId"
+        v-model="form.vendorId"
+        label="Vendor ID"
+        :rules="[required]"
+        data-test="field-vendor-id"
+      />
+      <p v-else class="text-caption mb-3">
         Vendor ID: <strong>{{ editingVendorId }}</strong>
       </p>
       <v-text-field

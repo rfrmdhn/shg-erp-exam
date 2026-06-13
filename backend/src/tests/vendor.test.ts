@@ -66,39 +66,47 @@ describe('GET /api/vendors', () => {
 });
 
 describe('POST /api/vendors', () => {
-  it('creates a vendor with an auto-generated ID', async () => {
+  it('creates a vendor with a user-supplied ID', async () => {
     const res = await agent
       .post('/api/v1/vendors')
-      .send({ name: 'New Vendor', address: 'Jakarta', unitId: unit1Id });
+      .send({ vendorId: 'VND-0001', name: 'New Vendor', address: 'Jakarta', unitId: unit2Id });
 
     expect(res.status).toBe(201);
-    expect(res.body).toMatchObject({ name: 'New Vendor', address: 'Jakarta', unitId: unit1Id });
-    expect(res.body.vendorId).toMatch(/^VND-\d{4}$/);
+    expect(res.body).toMatchObject({
+      vendorId: 'VND-0001',
+      name: 'New Vendor',
+      address: 'Jakarta',
+      unitId: unit2Id,
+    });
   });
 
-  it('generates sequential IDs within the same unit', async () => {
-    const r1 = await agent
+  it('rejects duplicate vendorId within the same unit with 409', async () => {
+    const res = await agent
       .post('/api/v1/vendors')
-      .send({ name: 'First', address: 'Jakarta', unitId: unit2Id });
-    const r2 = await agent
-      .post('/api/v1/vendors')
-      .send({ name: 'Second', address: 'Jakarta', unitId: unit2Id });
+      .send({ vendorId: 'Vendor001', name: 'Duplicate', address: 'Jakarta', unitId: unit1Id });
 
-    expect(r1.status).toBe(201);
-    expect(r2.status).toBe(201);
-    expect(r1.body.vendorId).not.toBe(r2.body.vendorId);
+    expect(res.status).toBe(409);
+  });
+
+  it('allows the same vendorId in a different unit', async () => {
+    const res = await agent
+      .post('/api/v1/vendors')
+      .send({ vendorId: 'Vendor001', name: 'Different Unit', address: 'Jakarta', unitId: unit2Id });
+
+    expect(res.status).toBe(201);
+    expect(res.body.vendorId).toBe('Vendor001');
   });
 
   it('rejects missing fields with 400', async () => {
-    const res = await agent.post('/api/v1/vendors').send({ name: 'No address' });
+    const res = await agent.post('/api/v1/vendors').send({ name: 'No address or id' });
     expect(res.status).toBe(400);
   });
 
   it('returns 500 when the DB throws unexpectedly on create', async () => {
-    jest.spyOn(Vendor, 'findAll').mockRejectedValueOnce(new Error('DB connection lost'));
+    jest.spyOn(Vendor, 'findOne').mockRejectedValueOnce(new Error('DB connection lost'));
     const res = await agent
       .post('/api/v1/vendors')
-      .send({ name: 'X', address: 'X', unitId: unit1Id });
+      .send({ vendorId: 'X-001', name: 'X', address: 'X', unitId: unit1Id });
     expect(res.status).toBe(500);
   });
 });

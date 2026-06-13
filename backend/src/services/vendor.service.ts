@@ -5,18 +5,6 @@ import { ERR_VENDOR_NOT_FOUND } from '../constants';
 
 export type { CreateVendorData, UpdateVendorData };
 
-async function generateVendorId(unitId: number): Promise<string> {
-  const vendors = await Vendor.findAll({ where: { unitId }, attributes: ['vendorId'] });
-  let maxSeq = 0;
-  for (const v of vendors) {
-    const match = v.vendorId.match(/^VND-(\d+)$/);
-    if (match) {
-      maxSeq = Math.max(maxSeq, parseInt(match[1], 10));
-    }
-  }
-  return `VND-${String(maxSeq + 1).padStart(4, '0')}`;
-}
-
 export async function listVendors(unitId: number, page: number, limit: number): Promise<PaginatedResult<Vendor>> {
   const { rows, count } = await Vendor.findAndCountAll({
     where: { unitId },
@@ -28,12 +16,11 @@ export async function listVendors(unitId: number, page: number, limit: number): 
 }
 
 export async function createVendor(data: CreateVendorData): Promise<Vendor> {
-  const vendorId = await generateVendorId(data.unitId);
-  const existing = await Vendor.findOne({ where: { vendorId, unitId: data.unitId } });
+  const existing = await Vendor.findOne({ where: { vendorId: data.vendorId, unitId: data.unitId } });
   if (existing) {
-    throw new AppError('vendorId already exists for this unit', 400);
+    throw new AppError('Vendor ID already exists for this unit', 409);
   }
-  return Vendor.create({ ...data, vendorId });
+  return Vendor.create(data);
 }
 
 export async function updateVendor(id: number, data: UpdateVendorData): Promise<Vendor> {

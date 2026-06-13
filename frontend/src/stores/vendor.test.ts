@@ -47,12 +47,14 @@ describe('vendor store', () => {
 
     const store = useVendorStore();
     await store.createVendor({
+      vendorId: 'VND-0001',
       name: 'New',
       address: 'Jakarta',
       unitId: 2,
     });
 
     expect(api.post).toHaveBeenCalledWith('/vendors', {
+      vendorId: 'VND-0001',
       name: 'New',
       address: 'Jakarta',
       unitId: 2,
@@ -80,7 +82,7 @@ describe('vendor store', () => {
 
     const store = useVendorStore();
     await expect(
-      store.createVendor({ name: 'X', address: 'X', unitId: 1 })
+      store.createVendor({ vendorId: 'X-001', name: 'X', address: 'X', unitId: 1 })
     ).rejects.toBeTruthy();
   });
 });
