@@ -10,7 +10,7 @@ export function useAppShell() {
   const unitStore = useUnitStore();
 
   const pageTitle = computed(() => (route.meta.title as string | undefined) ?? 'Dashboard');
-  const showBranchSelector = computed(() => route.name === 'vendors');
+  const showBranchSelector = computed(() => route.name === 'vendors' || route.name === 'dashboard');
 
   const userInitial = computed(() =>
     (authStore.user?.name || 'U').charAt(0).toUpperCase()

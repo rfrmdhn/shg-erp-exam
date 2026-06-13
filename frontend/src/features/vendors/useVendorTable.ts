@@ -1,4 +1,4 @@
-import { ref, reactive, computed, watch } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useUnitStore } from '@/stores/unit';
 import { useVendorStore } from '@/stores/vendor';
 import { useTablePagination } from '@/components/molecules/TablePagination/useTablePagination';
@@ -51,6 +51,8 @@ export function useVendorTable() {
       vendorStore.fetchVendors(unitStore.selectedUnitId, page, limit);
     }
   }
+
+  onMounted(() => load(1, vendorStore.limit));
 
   // Refetch whenever the selected unit changes.
   watch(
