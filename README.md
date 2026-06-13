@@ -81,10 +81,12 @@ cd backend && npm test
 cd frontend && npm test
 ```
 
-- **Backend (14 tests):** auth login success/failure, JWT middleware, vendor list
-  filtered by unit, pagination, create + duplicate/missing-field validation.
-- **Frontend (11 tests):** auth & vendor Pinia stores, router guard, VendorView
-  (renders rows, opens the New Vendor dialog, refetches on unit change).
+- **Backend (34 tests):** auth login success/failure, JWT middleware, unit listing,
+  vendor list filtered by unit, pagination, create with user-supplied ID, duplicate
+  vendorId rejection (409), cross-unit uniqueness, missing-field validation, update,
+  delete, and unexpected DB error handling.
+- **Frontend (24 tests):** auth & vendor & unit Pinia stores, router guard, VendorView
+  (renders rows, opens the New Vendor dialog with all three fields, refetches on unit change).
 
 ## Build (production)
 
@@ -103,6 +105,8 @@ Base `/api`. All vendor/unit routes require `Authorization: Bearer <token>`.
 | GET | `/units` | list units |
 | GET | `/vendors?unitId=&page=&limit=` | paginated, filtered by unit |
 | POST | `/vendors` | `{ vendorId, name, address, unitId }` |
+| PUT | `/vendors/:id` | `{ name, address }` — vendorId is immutable |
+| DELETE | `/vendors/:id` | 204 on success |
 | GET | `/health` | liveness |
 
 ## Notes
